@@ -1,0 +1,75 @@
+<%- layout('./layouts/layout') %>
+
+<div>
+    <h4>Blog posts</h4>
+    <% if(user) { %>
+    <p>
+        <a href="newpost">New post</a>
+    </p>
+    <% } else { %>
+    <p>
+        <a href="/users/signin">Login</a> to add posts<br/>
+    </p>
+    <% } %>
+    <hr/>
+    <div class="">
+        <% alldata.forEach(function (post) { %>
+        <div class="postarea">
+            <div class="row">
+                <div class="col-lg-3">
+                    <a href="#" class="thumbnail">
+                        <img src="http://placehold.it/260x180" alt="">
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <h4><%= post.posttitle %></h4>
+                    <p><strong>Post id: </strong><%= post._id %></p>
+                    <p><strong>Date: </strong><%= moment(post.posttimestamp).format('DD MMMM YYYY, HH:mm') %></p>
+
+                    <p><strong>Content: </strong>
+                        <%= post.postcontent %>
+                    </p>
+                    <% if(user) { %>
+                    <p><a href="/posts/<%= post.id %>">Add comment</a></p>
+                    <% } else { %>
+                    <p><a href="/users/signin">Login</a> to comment<br/>
+                    </p>
+                    <% } %>
+
+                </div>
+            </div>
+            <br/>
+            <div class="commentarea">
+                <div class="col-lg-12"><h3 class="text-center">Comments:</h3></div>
+                <% if(typeof post.comments
+                        && post.comments != ""
+                        && post.comments !== 'undefined'
+                        && post.comments !== null
+                        && post.comments.length > 1) {
+                for(var i = 0; i < post.comments.length; i++) {
+                if (post.comments[i].comment_content !== '' && post.comments[i].comment_content !== null) { %>
+                <div class="alert alert-success text-center">
+                    <span><strong>By: </strong><%= post.comments[i].comment_user %> | </span>
+                    <span><strong>Date: </strong><%= moment(post.comments.comment_timestamp).format('DD MMMM YYYY, HH:mm') %></span>
+                    <br/>
+                    <hr />
+                    <span><%= post.comments[i].comment_content %></span>
+                </div>
+                <% } else { %>
+
+                <% }}} else { %>
+                <div class="alert alert-success text-center">
+                    <span>No comments</span>
+                    <% if(user) { %>
+                    <br/><a href="/posts/<%= post.id %>">Add comment</a>
+                    <% } %>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <hr/>
+        <% }) %>
+    </div>
+</div>
+
+

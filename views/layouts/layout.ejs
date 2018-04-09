@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <% if (title) { %>
+    <title><%= title %></title>
+    <% } else { %>
+    <title>Blog web-application</title>
+    <% } %>
+
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css'/>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+    <script src="/javascripts/bootstrap.js"></script>
+
+</head>
+<body>
+<div class="header clearfix">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary fixed-top ">
+        <a class="navbar-brand" href="/">BlogApp</a>
+        <% if(user) { %>
+        <ul class="navbar-nav nav">
+            <li class="nav-link">Logged in as: <%= user.username %></li>
+        </ul>
+        <% } %>
+        <ul class="navbar-nav ml-auto nav">
+            <% if(user) { %>
+
+            <li class="active"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/posts/view">Posts</a></li>
+            <li class="nav-item"><a class="nav-link" href="/users/logout">Sign Out</a></li>
+            <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/posts/view">Posts</a></li>
+            <li class="nav-item"><a class="nav-link" href="/users/signin">Sign In</a></li>
+            <% } %>
+        </ul>
+    </nav>
+</div>
+
+<section>
+    <div class="main col-lg-12">
+        <div class="container-fluid">
+            <% if(typeof success_msg !== 'undefined' && success_msg !== null && success_msg.length > 0) {
+            for(var i = 0; i < success_msg.length; i++) { %>
+            <div class="alert alert-success text-center">
+                <%= success_msg %>
+            </div>
+            <% }} %>
+
+            <% if(typeof error_msg !== 'undefined' && error_msg !== null && error_msg.length > 0) {
+            for(var i = 0; i < error_msg.length; i++) { %>
+            <div class="alert alert-danger text-center">
+                <%= error_msg %>
+            </div>
+            <% }} %>
+
+            <% if(typeof error !== 'undefined' && error !== null && error.length > 0) {
+            for(var i = 0; i < error.length; i++) { %>
+            <div class="alert alert-danger text-center">
+                <%= error %>
+            </div>
+            <% }} %>
+
+            <% if(typeof errors !== 'undefined' && errors !== null && errors.length > 0) {
+            for(var i = 0; i < errors.length; i++) { %>
+            <div class="alert alert-danger text-center"><%= errors[i].msg %></div>
+            <% }} %>
+
+            <%- body %>
+        </div>
+        <footer class="footer text-center">
+            <span>March 2018, Frameworks Mandatory Assignment</span>
+        </footer>
+    </div>
+</section>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</html>
